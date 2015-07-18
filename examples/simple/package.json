@@ -1,0 +1,29 @@
+{
+  "name": "react-list-simple-example",
+  "version": "0.0.1",
+  "description": "A react component for infinite scroll lists.",
+  "dependencies": {
+    "react": "0.12.2",
+    "superagent": "1.2.0",
+    "react-style": "0.5.5"
+  },
+  "devDependencies": {
+    "jsx-loader": "^0.x.x",
+    "babel-loader": "^5.x.x",
+    "bundle-loader": "^0.x.x",
+    "css-loader": "0.x.x",
+    "sass-loader": "^0.x.x",
+    "style-loader": "0.x.x",
+    "webpack": "^1.x.x",
+    "webpack-dev-server": "^1.x.x"
+  },
+  "scripts": {
+    "start" : "webpack --progress --watch --colors"
+  },
+  "author": "René Monroy <rene.monroy@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "infinite-list"
+  ]
+}
