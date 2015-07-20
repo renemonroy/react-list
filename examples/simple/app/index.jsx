@@ -7,7 +7,8 @@ var React = require('react'),
 
 var styl = StyleSheet.create({
   repo : {
-    height : '100px'
+    height : '30px',
+    overflow : 'hidden'
   },
   reposList : {
     height : '300px',

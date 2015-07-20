@@ -20,6 +20,19 @@ var CLIENT_START_KEYS = { x: 'clientTop', y: 'clientLeft' },
   SIZE_KEYS = { x: 'width', y: 'height' },
   START_KEYS = { x: 'left', y: 'top' };
 
+var UIListContainer = React.createClass({
+  componentDidMount : function() {
+    this.props.onUpdate(this.getDOMNode());
+  },
+  render : function() {
+    return (
+      <div className="items-list-container">
+        {this.props.children}
+      </div>
+    )
+  }
+});
+
 var UIList = React.createClass({
 
   propTypes : {
@@ -44,9 +57,6 @@ var UIList = React.createClass({
       type : 'simple',
       item : function(index, key) {
         return <div key={key}>{index}</div>;
-      },
-      itemsList : function(items, ref) {
-        return <div ref={ref}>{items}</div>;
       }
     };
   },
@@ -149,7 +159,7 @@ var UIList = React.createClass({
   },
 
   getItemSizeAndItemsPerRow : function() {
-    var itemEls = this.getDOMNode(this.items).children;
+    var itemEls = this.itemElsContainer.children;
     if ( !itemEls.length ) return {};
     var firstRect = itemEls[0].getBoundingClientRect(),
       { itemSize } = this.state,
@@ -253,7 +263,7 @@ var UIList = React.createClass({
   cacheSizes : function() {
     var cache = this.cache,
       { startFrom } = this.state,
-      itemEls = this.getDOMNode(this.items).children,
+      itemEls = this.itemElsContainer.children,
       sizeKey = SIZE_KEYS[this.props.axis];
     for ( var i=0, l=itemEls.length; i<l; i++ ) {
       cache[startFrom + i] = itemEls[i].getBoundingClientRect()[sizeKey];
@@ -292,21 +302,27 @@ var UIList = React.createClass({
     if ( current < min ) this.setScroll(min);
   },
 
+  listDidUpdate : function(el) {
+    this.itemElsContainer = el;
+  },
+
   getItems : function() {
     var uiList = this,
+      { name } = this.props,
       { startFrom, size } = this.state,
       items = [];
     for ( var i=0; i<size; i++ ) {
       items.push(this.props.item(startFrom + i, i));
     }
-    return this.props.itemsList(items, function(c) {
-      return uiList.items = c;
-    });
+    return (
+      <UIListContainer onUpdate={this.listDidUpdate}>
+        {items}
+      </UIListContainer>
+    );
   },
 
   render : function() {
     var items = this.getItems();
-    console.log('>>> Items', this.items);
     if ( this.props.type === 'simple' ) return items;
     var axis = this.props.axis,
       size = this.getSpaceBefore(this.props.length),
