@@ -45,8 +45,8 @@ module.exports = {
   entry : getEntry(config.env),
   devTool : 'eval',
   output : {
-    path : path.join(__dirname, '/assets/'),
-    publicPath : '/assets/',
+    path : path.join(__dirname, '/build/'),
+    publicPath : '/build/',
     filename : '[name].bundle.js',
     chunkFilename : '[hash]/js/[id].bundle.js'
   },
